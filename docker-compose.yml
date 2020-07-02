@@ -1,0 +1,41 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  delayed_job:
+    build: .
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/payment_system?encoding=utf8&pool=5&timeout=5000
+    command: bundle exec rails jobs:work
+    volumes:
+      - .:/payment-system
+    depends_on:
+      - db
+  cron_job:
+    build: .
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/payment_system?encoding=utf8&pool=5&timeout=5000
+    command: cron -f
+    depends_on:
+      - db
+  web:
+    build: .
+    environment:
+      - RUBYOPT=-W:no-deprecated
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/payment_system?encoding=utf8&pool=5&timeout=5000
+    command: bundle exec rails s -b '0.0.0.0'
+    volumes:
+      - .:/payment-system
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    tty: true
+    stdin_open: true
+volumes:
+  pgdata:
