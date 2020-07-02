@@ -26,6 +26,9 @@ gem 'jbuilder', '~> 2.7'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
+gem 'dry-transaction'
+gem 'dry-validation'
+
 gem 'dotenv-rails'
 
 gem 'slim-rails'
