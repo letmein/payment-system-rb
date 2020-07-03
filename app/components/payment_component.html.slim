@@ -1,0 +1,15 @@
+tr id=row_id
+  th scope='row'
+    = payment.id
+  td
+    = payment.customer_email
+  td
+    = payment.customer_phone
+  td
+    = type
+  td
+    = payment.status
+  td
+    = payment.amount
+  td
+    = l payment.created_at

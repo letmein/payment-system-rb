@@ -1,0 +1,15 @@
+h1 All payments
+
+table.table
+  thead
+    tr
+      th scope='col' ID
+      th scope='col' Merchant
+      th scope='col' Email
+      th scope='col' Phone
+      th scope='col' Type
+      th scope='col' Status
+      th scope='col' Amount
+      th scope='col' Created
+  tbody
+    = render Admin::PaymentComponent.with_collection(@payments)

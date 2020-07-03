@@ -18,7 +18,7 @@ gem 'webpacker', '~> 4.0'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.7'
 # Use Active Model has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
@@ -31,6 +31,8 @@ gem 'dry-validation'
 gem 'dotenv-rails'
 
 gem 'slim-rails'
+
+gem 'view_component'
 
 gem 'whenever', require: false
 
@@ -48,7 +50,10 @@ group :development do
 end
 
 group :test do
+  gem 'capybara'
+  gem 'rack_session_access'
   gem 'rspec-rails'
+  gem 'selenium-webdriver', '~> 2.53', '>= 2.53.4'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

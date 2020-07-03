@@ -1,0 +1,13 @@
+h1 All merchants
+
+table.table
+  thead
+    tr
+      th scope='col' Name
+      th scope='col' Description
+      th scope='col' Email
+      th scope='col' Status
+      th scope='col' Total
+      th scope='col'
+  tbody
+    = render partial: 'merchant', collection: @merchants

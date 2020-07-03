@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_01_161822) do
+ActiveRecord::Schema.define(version: 2020_07_03_080734) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -58,5 +58,18 @@ ActiveRecord::Schema.define(version: 2020_07_01_161822) do
     t.index ["parent_transaction_id"], name: "index_payment_transactions_on_parent_transaction_id"
   end
 
+  create_table "users", force: :cascade do |t|
+    t.string "email", null: false
+    t.string "password"
+    t.string "password_digest"
+    t.string "role", null: false
+    t.bigint "merchant_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_users_on_email"
+    t.index ["merchant_id"], name: "index_users_on_merchant_id"
+  end
+
   add_foreign_key "payment_transactions", "merchants"
+  add_foreign_key "users", "merchants"
 end

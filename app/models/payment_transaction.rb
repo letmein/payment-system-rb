@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class PaymentTransaction < ApplicationRecord
+  include Statusable
+
   self.implicit_order_column = 'created_at'
 
   STATUSES = [
@@ -15,11 +17,7 @@ class PaymentTransaction < ApplicationRecord
 
   validates :status, inclusion: { in: STATUSES }
 
-  STATUSES.each do |status_name|
-    define_method :"status_#{status_name}?" do
-      status.to_s == status_name
-    end
-  end
+  define_status_predicates STATUSES
 
   def self.expired(expired_at = 1.hour.ago)
     left_outer_joins(:follow_transactions)

@@ -1,0 +1,29 @@
+h1 Edit Merchant
+
+= form_with model: [:admin, @merchant], local: true do |form|
+  div.form-group
+    = form.label :name
+    = form.text_field :name, class: "form-control #{@errors[:name] && 'is-invalid'}"
+    div.invalid-feedback
+      = @errors[:name]
+
+  div.form-group
+    = form.label :description
+    = form.text_field :description, class: "form-control #{@errors[:description] && 'is-invalid'}"
+    div.invalid-feedback
+      = @errors[:description]
+
+  div.form-group
+    = form.label :email
+    = form.text_field :email, class: "form-control #{@errors[:email] && 'is-invalid'}"
+    div.invalid-feedback
+      = @errors[:email]
+
+  div.form-group
+    = form.label :status
+    = form.select :status, Merchant::STATUSES, {}, class: "form-control #{@errors[:status] && 'is-invalid'}"
+    div.invalid-feedback
+      = @errors[:status]
+
+
+  button.btn.btn-primary type='submit' Save
