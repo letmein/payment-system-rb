@@ -1,9 +1,6 @@
-default: &default
-  url: <%= ENV['DATABASE_URL'] %>
-
 development:
-  <<: *default
+  url: <%= ENV['DATABASE_URL'].gsub('?', '_development?') %>
 test:
-  <<: *default
+  url: <%= ENV['DATABASE_URL'].gsub('?', '_test?') %>
 production:
-  <<: *default
+  url: <%= ENV['DATABASE_URL'].gsub('?', '_production?') %>

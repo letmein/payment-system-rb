@@ -1,31 +1,28 @@
 # frozen_string_literal: true
 
 class UpdateMerchant < ApplicationOperation
-  step :assign_attrs
   step :validate
   step :persist
 
   private
 
-  def assign_attrs(input)
-    attrs = input[:attrs].slice(:name, :description, :email, :status)
-    input[:merchant].assign_attributes(attrs)
-    Success(input)
-  end
-
   def validate(input)
-    contract = MerchantUpdateContract.new(record: input[:merchant])
+    merchant = input[:merchant]
+
+    contract = MerchantUpdateContract.new(record: merchant)
     validation_result = contract.call(input[:attrs])
 
+    merchant.assign_attributes(validation_result.to_h)
+
     if validation_result.success?
-      Success(input)
+      Success(merchant)
     else
       Failure(validation_result.errors.to_h.transform_values(&:first))
     end
   end
 
-  def persist(input)
-    input[:merchant].save!
-    Success(true)
+  def persist(merchant)
+    merchant.save!
+    Success(merchant)
   end
 end

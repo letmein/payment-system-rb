@@ -1,40 +1,47 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-Authorize transaction:
+## Build
 ```
-curl -u user:password 'http://localhost:3000/api/payments' -X POST \
+docker-compose build
+```
+
+## Set up database
+```
+docker-compose run web rails db:setup
+```
+
+## Run tests
+```
+docker-compose run -e "RAILS_ENV=test" web rspec
+```
+
+## Import merchants & admins
+The list of imported user email with their passwords will be displayed.
+```
+docker-compose run web rake import:merchants FILE=db/merchants.csv
+docker-compose run web rake import:admins FILE=db/admins.csv
+```
+
+## Start the app
+```
+docker-compose up
+```
+
+### Authorize transaction
+
+```
+curl -u user:password 'http://0.0.0.0:3000/api/payments' -X POST \
   -H 'Content-Type: application/json' \
   --data-raw '{ "merchant_email": "merchant@example.com",
     "transaction_type": "authorize",
     "transaction_params": { "customer_email": "customer@example.com", "amount": 12 } }'
 ```
 
-Charge transaction:
+### Charge/Refund/Reveral transaction
+
+Change *transaction_type* to 'charge', 'refund' or 'reveral' accordingly:
 ```
-curl -u user:password 'http://localhost:3000/api/payments' -X POST \
+curl -u user:password 'http://0.0.0.0:3000/api/payments' -X POST \
   -H 'Content-Type: application/json' \
   --data-raw '{ "merchant_email": "merchant@example.com",
     "transaction_type": "charge",
