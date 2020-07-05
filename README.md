@@ -39,7 +39,7 @@ curl -u user:password 'http://0.0.0.0:3000/api/payments' -X POST \
 
 ### Charge/Refund/Reveral transaction
 
-Change *transaction_type* to 'charge', 'refund' or 'reveral' accordingly:
+Change *transaction_type* to `charge`, `refund` or `reversal` accordingly:
 ```
 curl -u user:password 'http://0.0.0.0:3000/api/payments' -X POST \
   -H 'Content-Type: application/json' \
