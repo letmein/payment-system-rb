@@ -21,17 +21,12 @@ class CreatePayment < ApplicationOperation
 
   def build(input)
     validation_context = input[:validation_context]
-    transaction_params = input[:transaction_params]
     parent = validation_context[:parent_transaction]
 
     transaction =
       case input[:transaction_type].to_s
       when 'authorize'
-        PaymentTransactions::Authorize.build(
-          merchant: validation_context[:merchant],
-          amount: transaction_params[:amount],
-          customer_email: transaction_params[:customer_email]
-        )
+        build_auth_transaction(validation_context[:merchant], input[:transaction_params])
       when 'reversal'
         PaymentTransactions::Reversal.build(parent: parent)
       when 'charge'
@@ -41,6 +36,14 @@ class CreatePayment < ApplicationOperation
       end
 
     Success(transaction)
+  end
+
+  def build_auth_transaction(merchant, transaction_params)
+    PaymentTransactions::Authorize.build(
+      merchant: merchant,
+      amount: transaction_params[:amount],
+      customer_email: transaction_params[:customer_email]
+    )
   end
 
   def persist(transaction)

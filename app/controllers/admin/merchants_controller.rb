@@ -14,10 +14,7 @@ module Admin
     def update
       @merchant = Merchant.find(params[:id])
 
-      result = UpdateMerchant.new.call(
-        merchant: @merchant,
-        attrs: params.require(:merchant).to_unsafe_h
-      )
+      result = UpdateMerchant.new.call(merchant: @merchant, attrs: params.require(:merchant).to_unsafe_h)
 
       if result.success?
         redirect_to admin_merchants_path, notice: 'Merchant has been updated'
